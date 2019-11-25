@@ -1,73 +1,70 @@
-module.exports = function (app) {
+module.exports = function(app) {
   app.config([
     'formioComponentsProvider',
-    function (formioComponentsProvider) {
-      var isNumeric = function isNumeric(n) {
-        return !isNaN(parseFloat(n)) && isFinite(n);
-      };
+    function(formioComponentsProvider) {
       formioComponentsProvider.register('rangeslider', {
-        title: 'Range Slider',
-        template: 'formio/components/rangeslider.html',
-        settings: {
-          input: true,
-          tableView: true,
-          inputType: 'text',
-          label: '',
-          key: 'numberField',
-          placeholder: '',
-          prefix: '',
-          suffix: '',
-          defaultValue: '',
-          protected: false,
-          persistent: true,
-          validate: {
-            required: false,
-            min: '',
-            max: '',
-            step: 'any',
-            integer: '',
-            multiple: '',
-            custom: ''
+        icon: 'fa fa-list',
+        views: [
+          {
+            name: 'Display',
+            template: 'formio/components/survey/display.html'
+          },
+          {
+            name: 'Validation',
+            template: 'formio/components/survey/validate.html'
+          },
+          {
+            name: 'API',
+            template: 'formio/components/common/api.html'
+          },
+          {
+            name: 'Layout',
+            template: 'formio/components/common/layout.html'
+          },
+          {
+            name: 'Conditional',
+            template: 'formio/components/common/conditional.html'
           }
-        },
-        controller: ['$scope', function ($scope) {
-          if ($scope.builder) return; // FOR-71 - Skip parsing input data.
-
-          // Ensure that values are numbers.
-          if (
-            $scope.data &&
-            $scope.data.hasOwnProperty($scope.component.key) &&
-            isNumeric($scope.data[$scope.component.key])
-          ) {
-            $scope.data[$scope.component.key] = parseFloat($scope.data[$scope.component.key]);
-          }
-        }]
+        ],
+        documentation: 'http://help.form.io/userguide/#survey'
       });
     }
   ]);
-
   app.run([
     '$templateCache',
-    'FormioUtils',
-    function ($templateCache, FormioUtils) {
-      $templateCache.put('formio/components/rangeslider.html', FormioUtils.fieldWrap(
-        "<div class=\"range-container\"\n>\n" +
-        "<div class=\"range-hack\"\n>\n" +
-        "<div class=\"range-col-50\"\n>\n {{ component.validate.min }} </div>\n" +
-        "<div class=\"range-col-50\"\n>\n <span class=\"pull-right\"\n>\n{{ component.validate.max }} </span>\n" +
-        "</div>\n" +
-        "<input\n type=\"range\"\n string-to-number\n class=\"form-control\"\n ng-model=\"data[component.key]\"\n  id=\"{{ componentId }}\"\n  name=\"{{ componentId }}\"\n  tabindex=\"{{ component.tabindex || 0 }}\"\n min=\"{{ component.validate.min }}\"\n  ng-disabled=\"readOnly\"\n  safe-multiple-to-single\n min=\"{{ component.validate.min }}\"\n  max=\"{{ component.validate.max }}\"\n step=\"{{ component.validate.step }}\"\n  ui-options=\"uiMaskOptions\"\n>\n" +
-        "<div ng-class=\"component.inline ? 'block-it' : 'none-it'\">\n" +
-        "<div class=\"col-20-smiley left-it\"><div class=\"icon-sad-face-eyebrows\"></div>\n </div>\n" +
-        "<div class=\"col-20-smiley center-it\"><div class=\"icon-sad-face\"></div>\n </div>\n" +
-        "<div class=\"col-20-smiley center-it\"><div class=\"icon-neutral-face\"></div>\n </div>\n" +
-        "<div class=\"col-20-smiley center-it\"><div class=\"icon-smiling-face\"></div>\n </div>\n" +
-        "<div class=\"col-20-smiley right-it\"><div class=\"icon-laughing-face\"></div>\n </div>\n" +
-        "</div>\n" +
-        "<input\n  type=\"text\"\n   class=\"form-control\"\n  id=\"{{ componentId }}\"\n  name=\"{{ componentId }}\"\n  tabindex=\"{{ component.tabindex || 0 }}\"\n  ng-model=\"data[component.key]\"\n   ng-disabled=\"readOnly\"\n  safe-multiple-to-single\n  min=\"{{ component.validate.min }}\"\n  max=\"{{ component.validate.max }}\"\n  step=\"{{ component.validate.step }}\"\n  placeholder=\"{{ component.placeholder | formioTranslate:null:builder }}\"\n  custom-validator=\"component.validate.custom\"\n  ui-mask=\"{{ component.inputMask }}\"\n  ui-mask-placeholder=\"\"\n  ui-options=\"uiMaskOptions\"\n>\n" +
-        "</div>\n" +
-        "</div>\n"
-      ));
+    function($templateCache) {
+      // Create the settings markup.
+      $templateCache.put('formio/components/survey/display.html',
+        '<ng-form>' +
+          '<form-builder-option property="label"></form-builder-option>' +
+          '<form-builder-option property="hideLabel"></form-builder-option>' +
+          '<form-builder-option-label-position></form-builder-option-label-position>' +
+          '<form-builder-option property="tooltip"></form-builder-option>' +
+          '<value-builder data="component.questions" default="component.questions" label="Questions" tooltip-text="The questions you would like to as in this survey question."></value-builder>' +
+          '<value-builder data="component.values" default="component.values" label="Values" tooltip-text="The values that can be selected per question. Example: \'Satisfied\', \'Very Satisfied\', etc."></value-builder>' +
+          '<form-builder-option property="defaultValue"></form-builder-option>' +
+          '<form-builder-option property="errorLabel"></form-builder-option>' +
+          '<form-builder-option property="customClass"></form-builder-option>' +
+          '<form-builder-option property="tabindex"></form-builder-option>' +
+          '<form-builder-option property="inline" type="checkbox" label="Inline Layout" title="Displays the radio buttons horizontally."></form-builder-option>' +
+          '<form-builder-option property="clearOnHide"></form-builder-option>' +
+          '<form-builder-option property="protected"></form-builder-option>' +
+          '<form-builder-option property="persistent"></form-builder-option>' +
+          '<form-builder-option property="encrypted" class="form-builder-premium"></form-builder-option>' +
+          '<form-builder-option property="hidden"></form-builder-option>' +
+          '<form-builder-option property="disabled"></form-builder-option>' +
+          '<form-builder-option property="autofocus"></form-builder-option>' +
+          '<form-builder-option property="tableView"></form-builder-option>' +
+        '</ng-form>'
+      );
+      // Create the API markup.
+      $templateCache.put('formio/components/survey/validate.html',
+        '<ng-form>' +
+          '<form-builder-option property="validate.required"></form-builder-option>' +
+          '<form-builder-option property="validate.customMessage"></form-builder-option>' +
+          '<form-builder-option-custom-validation></form-builder-option-custom-validation>' +
+        '</ng-form>'
+      );
     }
   ]);
 };

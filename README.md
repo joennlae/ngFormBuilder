@@ -67,4 +67,8 @@ bower install
 
 yarn add gulp-cli
 yarn gulp !!!!!
+
+# add new release
+zip release.zip -r . -x "bower_components/*" "node_modules/*" ".git/*"
 ```
+create new release on github
