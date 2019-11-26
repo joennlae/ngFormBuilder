@@ -166,9 +166,9 @@ angular-moment@^1.3.0:
     moment ">=2.8.0 <3.0.0"
 
 angular-sanitize@^1.7.8:
-  version "1.7.8"
-  resolved "https://registry.yarnpkg.com/angular-sanitize/-/angular-sanitize-1.7.8.tgz#87d59f754bb18d286dfd9d6ce867299c094c6719"
-  integrity sha512-sVq51is1cVNiPytH4JIEd7iRW0OBIRQGNETWkz1c/jnLv2sBf9oDxEd8enwDz/W2ULBIpqJPK/3AsIxmZyh9pA==
+  version "1.7.9"
+  resolved "https://registry.yarnpkg.com/angular-sanitize/-/angular-sanitize-1.7.9.tgz#6b4d5e826abdabd352b13a7c65c8c74daf6a7b15"
+  integrity sha512-nB/xe7JQWF9nLvhHommAICQ3eWrfRETo0EVGFESi952CDzDa+GAJ/2BFBNw44QqQPxj1Xua/uYKrbLsOGWZdbQ==
 
 angular-ui-ace@^0.2.3:
   version "0.2.3"
@@ -4333,10 +4333,9 @@ ng-file-upload@^12.2.13:
   resolved "https://registry.yarnpkg.com/ng-file-upload/-/ng-file-upload-12.2.13.tgz#01800f3872e526f95310f8477e99e4f12d0d8d14"
   integrity sha1-AYAPOHLlJvlTEPhHfpnk8S0NjRQ=
 
-ng-formio@^2.38.3:
-  version "2.38.4"
-  resolved "https://registry.yarnpkg.com/ng-formio/-/ng-formio-2.38.4.tgz#b69471648af07bdcdcf0d3f6c5739b67162ec835"
-  integrity sha512-SFbWaWtS3Wscvh57jCUus1tP0O/ItoNdrgJXPf4rGWQHjfBcQtuiK3OLBAKthd78+xtaHE04btssUqVMNqJQWg==
+"ng-formio@https://github.com/joennlae/ngFormio#2.x":
+  version "2.38.9"
+  resolved "https://github.com/joennlae/ngFormio#237dcddd81f34242adda25ec8221c181a9326560"
   dependencies:
     angular "^1.7.8"
     angular-ckeditor-legacy "^1.0.3"

@@ -60,7 +60,7 @@
     "gulp-cli": "^2.2.0",
     "lodash": "^4.17.15",
     "ng-dialog": "^1.4.0",
-    "ng-formio": "^2.38.3",
+    "ng-formio": "https://github.com/joennlae/ngFormio#2.x",
     "ng-tags-input": "^3.2.0",
     "vanilla-text-mask": "^5.1.1"
   }
