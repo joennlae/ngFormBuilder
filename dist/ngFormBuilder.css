@@ -342,304 +342,695 @@ ul.component-list li {
   display: inherit;
 }
 
-.ngdialog.ngdialog-theme-default .ngdialog-content {
-  width: 65%;
+.component-form-group {
+  position: relative;
 }
 
-.field-required:after {
-  color:red;
-  content:" *";
+.component-btn-group {
+  position: absolute;
+  right: 0;
+  z-index: 1000;
 }
 
-.ui-select-match > .btn-default {
-  color: #333;
-  border-color: #eee;
+.component-btn-group .component-settings-button {
+  float: right;
+  z-index: 1001;
+  margin: 4px 4px 0 0;
 }
 
-.ui-select-match > .btn.disabled,
-.ui-select-match > .btn[disabled] {
-  background-color: #e5e5e5 !important;
-  border: 1px solid #b0b0b0 !important;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.175);
+.component-form-group.col-xs-6 {
+  clear: right;
 }
 
-.field-required-inline {
-  color:red;
-  z-index: 5;
+li .component-btn-group .component-settings-button {
+  z-index: 1001;
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(48,113,169,0.6);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(48,113,169,0.6);
+  box-shadow: 0px 0px 10px 1px rgba(48,113,169,0.6);
 }
 
-.form-field-type-hidden {
+li:not(:hover) .component-btn-group .component-settings-button {
+  display: none;
+}
+
+.formbuilder .nav-tabs {
+  margin-bottom: 0;
+}
+
+.form-builder-panel .panel-body {
+  padding: 5px;
+}
+
+.form-component-list {
+  list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.form-field-type-signature img {
-  width: 100%;
+.form-component-list li {
+  margin-bottom: 10px;
 }
 
-.datetime-picker-dropdown div > table .btn-default {
-  border: 0;
-  background-color: #fff;
+.btn-xxs, .btn-group-xxs > .btn, .component-btn-group .component-settings-button {
+  padding: 2px 2px;
+  font-size: 10px;
+  line-height: 1.2em;
+  border-radius: 0;
+  width: 18px;
+  height: 18px;
 }
 
-.datetime-picker-dropdown div > table .btn-default:hover {
-  background-color: #ccc;
+.ngdialog.ngdialog-theme-default.component-settings .ngdialog-content {
+  width: 65%;
 }
 
-.datetime-picker-dropdown div > table .btn-default.active {
-  background-color: #ccc;
+#component-settings .tab-pane {
+  padding: 10px;
 }
 
-.has-feedback .datetime-picker-dropdown .form-control {
-  padding: inherit;
+#component-settings .nav-tabs {
+  font-size: 12px;
 }
 
-.has-error span.ui-select-toggle {
-  border: 1px solid red;
+.component-settings-key {
+  margin: -1em 1em 1em 1em;
 }
 
-.form-control.btn-default {
-  background-color: #fff;
+/***************************** Required styles *****************************/
+
+/**
+ * For the correct positioning of the placeholder element, the dnd-list and
+ * it's children must have position: relative
+ */
+ul[dnd-list],
+ul[dnd-list] > li {
+  position: relative;
 }
 
-.glyphicon.formio-hidden {
+tr[dnd-list],
+tr[dnd-list] > th {
+  position: relative;
+}
+
+/***************************** Dropzone Styling *****************************/
+
+/**
+ * The dnd-list should always have a min-height,
+ * otherwise you can't drop to it once it's empty
+ */
+ul.component-list {
+  min-height: 42px;
+  margin: 0px;
+  padding-left: 0px;
+}
+
+/**
+ * The dnd-lists's child elements currently MUST have
+ * position: relative. Otherwise we can not determine
+ * whether the mouse pointer is in the upper or lower
+ * half of the element we are dragging over. In other
+ * browsers we can use event.offsetY for this.
+ */
+ul.component-list li {
+  display: block;
+  padding: 0px;
+}
+
+.dropzone {
+  min-height: 150px;
+  min-width: 150px;
+}
+
+/**
+ * Reduce opacity of elements during the drag operation. This allows the user
+ * to see where he is dropping his element, even if the element is huge. The
+ * .dndDragging class is automatically set during the drag operation.
+ */
+.dropzone .dndDragging {
+  opacity: 0.7;
+}
+
+/**
+ * The dndDraggingSource class will be applied to the source element of a drag
+ * operation. It makes sense to hide it to give the user the feeling that he's
+ * actually moving it. Note that the source element has also .dndDragging class.
+ */
+.dropzone .dndDraggingSource {
   display: none;
 }
 
-/* Handle overflow of long matched placeholder/text without covering caret */
-.has-feedback .form-control.ui-select-toggle {
-  padding-right: 20px;
-}
-.ui-select-placeholder, .ui-select-match-text {
-  width: 100%;
-  margin-right: -15px;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-  display: block;
-}
-
-.ui-select-container {
-  min-width: 200px;
+/**
+ * An element with .dndPlaceholder class will be added as child of the dnd-list
+ * while the user is dragging over it.
+ */
+.dropzone .dndPlaceholder {
+  background-color: #ddd;
+  min-height: 50px;
+  min-width: 50px;
+  position: relative;
 }
 
-/* FOR-873 */
-.btn-disable{
-  outline: none !important;
-  cursor: not-allowed !important;
-  background-color: #7DC4EE !important;
-  border: #7DC4EE !important;
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* No */
-}
-
-.btn-disable:hover{
-  outline: none !important;
-  background-color: #7DC4EE !important;
-  border: #7DC4EE !important;
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* No */
-}
-
-.btn-disable:active{
-  -webkit-box-shadow: none !important;
-  box-shadow: none !important;
-}
-
-/* FOR-109 */
-.input-group .form-control {
-  z-index: inherit;
-}
-.input-group .form-control.ui-select-search {
-  float: none;
-}
-.form-group .form-field-type-select {
-  display: inline-block;
-  width: 100%;
-}
-
-/* Fix Safari bug that prevents you from typing in draggable password fields */
-input[type="password"][draggable="true"] {
-  -webkit-user-select:text !important;
-}
-
-.glyphicon-spin {
-  -webkit-animation: spin-anim 1s infinite;
-  animation: spin-anim 1s infinite;
-}
-@-webkit-keyframes spin-anim {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg);
-  }
-}
-@keyframes spin-anim {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg);
-  }
-}
-
-.formio-submission:hover {
-  background-color: rgba(0, 0, 0, .025);
-}
-
-.formio-submission:active {
-  background-color: rgba(0, 0, 0, .05);
-}
-
-.form-field-type-file .fileSelector,
-.component-type-file .fileSelector {
-  padding: 15px;
-  border: 2px dashed #ddd;
-  text-align: center;
-}
-
-.form-field-type-file .fileSelector.fileDragOver,
-.component-type-file .fileSelector.fileDragOver {
-  border-color: #127abe;
-}
-
-.form-field-type-file .fileSelector .glyphicon,
-.component-type-file .fileSelector .glyphicon {
-  font-size: 20px;
-  margin-right: 5px;
-}
-
-.component-type-selectboxes .checkbox-inline input[type="checkbox"],
-.form-field-type-selectboxes .checkbox-inline input[type="checkbox"],
-.form-field-type-radio .radio-inline input[type="radio"]
-.component-type-radio .radio-inline input[type="radio"] {
-  margin-top: 4px;
-}
-
-.form-field-type-table .form-group {
-  margin-bottom: 0px;
-}
-
-/* FA-877 - Fix component widths in the data grid with prefix/sufix. */
-.input-group {
-  width: 100%;
-}
-
-.form-field-type-datagrid .form-group {
-  margin-bottom: 0;
-}
-
-.form-field-type-datagrid .datagrid-table {
-  margin-bottom: 0px;
-}
-
-.form-field-type-datagrid .datagrid-add {
-  margin-bottom: 20px;
-}
-
-.form-field-type-datetime .input-group,
-.form-field-type-datetime .input-group-btn {
-  width: 100%;
-}
-.form-field-type-datetime .input-group-btn {
-  width: auto;
-}
-
-.center-loader {
-  font-size: 2em;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  margin-top: -0.5em;
-  margin-left: -0.5em;
-}
-
-.formio-iframe {
-  border: none;
-  width: 100%;
-  height: 1000px;
-}
-
-.inline-form-button {
-  margin-right: 10px;
-}
-
-.tooltip-inner {
-  white-space: pre-wrap;
-}
-
-.control-label--bottom {
-  margin-bottom: 0;
-  margin-top: 5px;
-}
-
-/*Form Wizard*/
-.bs-wizard {border-bottom: solid 1px #e0e0e0; padding: 0 0 10px 0;line-height: 1em;}
-.bs-wizard > .bs-wizard-step {padding: 0; position: relative;}
-.bs-wizard > .bs-wizard-step + .bs-wizard-step {}
-.bs-wizard > .bs-wizard-step .bs-wizard-stepnum-wrapper {position:absolute;width:100%}
-.bs-wizard > .bs-wizard-step .bs-wizard-stepnum {color: #595959; font-size: 12px; line-height:15px;}
-.bs-wizard > .bs-wizard-step .bs-wizard-info {color: #999; font-size: 14px;}
-.bs-wizard > .bs-wizard-step > .bs-wizard-dot {position: absolute; width: 30px; height: 30px; display: block; top: 25px; left: 50%; margin-top: -15px; margin-left: -15px; border-radius: 50%; cursor:pointer;z-index:10;}
-.bs-wizard.hasTitles > .bs-wizard-step > .bs-wizard-dot {top: 45px;}
-.bs-wizard > .bs-wizard-step > .bs-wizard-dot > .bs-wizard-dot-inner {width: 14px; height: 14px; border-radius: 50px; position: absolute; top: 8px; left: 8px; }
-.bs-wizard > .bs-wizard-step > .progress {position: relative; border-radius: 0px; height: 10px; box-shadow: none; margin: 20px 0;border: none;padding: 0;}
-.bs-wizard.hasTitles > .bs-wizard-step > .progress {margin-top: 40px;}
-.bs-wizard > .bs-wizard-step > .progress > .progress-bar {width:0px; box-shadow: none;}
-.bs-wizard > .bs-wizard-step.complete > .progress > .progress-bar {width:100%;border-radius:0;}
-.bs-wizard > .bs-wizard-step.active > .progress > .progress-bar {width:50%;}
-.bs-wizard > .bs-wizard-step:first-child.active > .progress > .progress-bar {width:0%;}
-.bs-wizard > .bs-wizard-step:last-child.active > .progress > .progress-bar {width: 100%;}
-.bs-wizard > .bs-wizard-step.disabled > .bs-wizard-dot {background-color: #f5f5f5;}
-.bs-wizard > .bs-wizard-step.disabled > .bs-wizard-dot > .bs-wizard-dot-inner {opacity: 0;}
-.bs-wizard > .bs-wizard-step:first-child  > .progress {left: 50%; width: 50%;}
-.bs-wizard > .bs-wizard-step:last-child  > .progress {width: 50%;}
-.bs-wizard > .bs-wizard-step.disabled a.bs-wizard-dot{ pointer-events: none; }
-/*END Form Wizard*/
-
-.formio-select-autocomplete-input {
-  /* we can't use display: none or visibility: hidden because autocomplete won't work on hidden field */
+/**
+ * An overlay that is shown while dragging. This way, elements like iframes in
+ * a content component do not interfere with dragging.
+ */
+.dropzone .dndOverlay {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99999;
   opacity: 0;
-  position: absolute;
 }
 
-@media (max-width: 767px) {
-  .col-sm-1.bs-wizard-step,
-  .col-sm-2.bs-wizard-step,
-  .col-sm-3.bs-wizard-step,
-  .col-sm-4.bs-wizard-step,
-  .col-sm-5.bs-wizard-step,
-  .col-sm-6.bs-wizard-step,
-  .col-sm-7.bs-wizard-step,
-  .col-sm-8.bs-wizard-step,
-  .col-sm-9.bs-wizard-step,
-  .col-sm-10.bs-wizard-step,
-  .col-sm-11.bs-wizard-step,
-  .col-sm-12.bs-wizard-step {
-    float: left !important;
-  }
+/***************************** Element Selection *****************************/
 
-  .col-sm-2.bs-wizard-step {
-    width: 16.66667%;
-  }
+.dropzone .selected .item {
+  color: #3c763d;
+  background-color: #dff0d8;
+}
 
-  .col-sm-1.bs-wizard-step {
-    width: 8.33333%;
-  }
+.dropzone .selected .box {
+  border-color: #d6e9c6;
+}
 
-  /*.bs-wizard > .bs-wizard-step:first-child {*/
-  /*margin-left: 24.999999995%; */
-  /*}*/
+.dropzone .selected .box > h3 {
+  color: #3c763d;
+  background-color: #dff0d8;
+  background-image: linear-gradient(to bottom,#dff0d8 0,#d0e9c6 100%);
+  border-color: #d6e9c6;
+}
+
+/***************************** Element type specific styles *****************************/
+
+.dropzone .item {
+  padding: 20px;
+}
+
+.dropzone .container-element {
+  margin: 30px;
+}
+
+.dropzone .container-element .column {
+  float: left;
+  width: 50%;
+}
+
+.dropzone .component-list {
+  padding-bottom: 0px;
+}
+
+/***************************** Toolbox *****************************/
+
+.toolbox ul {
+  list-style: none;
+  padding-left: 0px;
+  cursor: move;
+}
+
+.toolbox button {
+  margin: 5px;
+  width: 123px;
+  opacity: 1.0;
+}
+
+.toolbox .dndDragging {
+  opacity: 0.5;
+}
+
+.toolbox .dndDraggingSource {
+  opacity: 1.0;
+}
+
+/***************************** Trashcan *****************************/
+
+.trashcan ul {
+  list-style: none;
+  padding-left: 0px;
+}
+
+.trashcan img {
+  width: 100%;
+  -webkit-filter: grayscale(100%);
+  -moz-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+
+.trashcan .dndDragover img {
+  width: 100%;
+  -webkit-filter: none;
+  -moz-filter: none;
+  filter: none;
+}
+
+.trashcan .dndPlaceholder {
+  display: none;
+}
+
+.ui-select-toggle.btn {
+  text-align: left;
+}
+
+/***************************** Layout Styling *****************************/
+
+.btn-info {
+  border-color: #d3d3d3 !important;
+  background-color: #f8f8f8 !important;
+  color: #666 !important;
+}
+
+.component-type-panel .btn-info {
+  display:none;
+}
+
+.component-type-container .btn-danger {
+  display:none;
+}
+
+.component-type-container .btn-info {
+  display:none;
+}
+
+.form-field-type-container .btn-danger {
+  display:block;
+}
+
+.form-field-type-container .btn-info {
+  display:block;
+}
+
+.form-group .form-field-type-container {
+  margin-bottom:0 !important;
+}
+
+.form-field-type-panel .panel-body {
+  padding:0;
+}
+
+.form-builder-component .form-field-type-fieldset fieldset {
+  padding: 12px;
+  margin-left: -5px;
+  margin-right: -5px;
+  border: dotted 2px #e8e8e8 !important;
+}
+
+.form-builder-component .form-field-type-container {
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top:0px;
+  border: dotted 1px #e8e8e8;
+}
+
+.container-hack {
+  padding: 24px;
+}
+
+
+.form-builder-component .form-field-type-columns .formio-column {
+  padding: 10px;
+  border: dotted 2px #e8e8e8;
+}
+
+.form-field-type-well .well {
+  margin-bottom: 40px;
+  margin-top: 70px;
+}
+
+
+.range-container {
+  border-radius: 3px;
+  border: 1px solid #cccccc;
+  padding: 16px;
+  float:left;
+  width:100%;
+}
+
+.range-col-50 {
+  width: 50%;
+  float: left;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.range-hack input[type="text"] {
+  outline: none;
+  box-shadow: none !important;
+  text-align:center;
+  margin:0 auto !important;
+  padding:0 !important;
+  font-size:26px;
+  pointer-events:none;
+  margin-bottom:12px !important;
+  border-radius:68px !important;
+  width: 68px;
+  height: 68px;
+  border: 1px solid #ccc;
+  display: block !important;
+  float:none;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  padding:0;
+  margin-bottom:26px !important;
+  padding-right: 0px !important;
+  outline: none;
+  box-shadow: none !important;
+  border:none;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 7px;
+  cursor: pointer;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+  background: #f6595d;
+  border-radius: 25px;
+  border: 0px solid #f6595d;
+}
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 0px 0px 0px #f6595d, 0px 0px 0px #f6595d;
+  border: 3px solid #f6595d;
+  height: 32px;
+  width: 32px;
+  border-radius: 32px;
+  background: #ffffff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -12.5px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #601c5b;
+  border-bottom:1px solid #fff !important;
+}
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 7px;
+  cursor: pointer;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+  background: #601c5b;
+  border-radius: 25px;
+  border: 0px solid #f6595d;
+}
+input[type=range]::-moz-range-thumb {
+  box-shadow: 0px 0px 0px #f6595d, 0px 0px 0px #f6595d;
+  border: 3px solid #f6595d;
+  height: 32px;
+  width: 32px;
+  border-radius: 32px;
+  background: #ffffff;
+  cursor: pointer;
+}
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 7px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #f6595d;
+  border: 0px solid #f6595d;
+  border-radius: 50px;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+}
+input[type=range]::-ms-fill-upper {
+  background: #f6595d;
+  border: 0px solid #f6595d;
+  border-radius: 50px;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+}
+input[type=range]::-ms-thumb {
+  box-shadow: 0px 0px 0px #f6595d, 0px 0px 0px #f6595d;
+  border: 3px solid #f6595d;
+  height: 32px;
+  width: 32px;
+  border-radius: 32px;
+  background: #ffffff;
+  cursor: pointer;
+  height: 7px;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #f6595d;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #f6595d;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.range-container-prism {
+  background: #ffffff;
+  color: #f6595d;
+  border-radius: 3px;
+  font-weight: normal;
+  border: 1px solid #cccccc;
+  float:left;
+  padding:0;
+  width:100%;
+}
+
+
+.me {
+  width: 10%;
+  float:left;
+  padding-top:24px;
+}
+
+.me-circle {
+  width: 50px;
+  height:50px;
+  background-image: url("circle.svg");
+}
+
+.me-text {
+  color: #fff !important;
+  text-align:center;
+  font-size:11px;
+  padding-top:18px;
+}
+
+.prism-input {
+  width:100%;
+  float:left;
+  padding:0;
+  background:#f9f9f9;
+}
+
+.prism {
+  padding: 16px;
+  margin-bottom:0px;
+  float:left;
+  width:100%;
+}
+
+
+.prism-input input[type="text"] {
+  color: #f6595d !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  text-align: center;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  pointer-events: none;
+  font-size: 16px;
+  width: 100%;
+  background: none !important;
+  box-shadow: none !important;
+  border-radius: none !important;
+}
+
+
+
+.prism input[type=range] {
+  -webkit-appearance: none;
+  width: 90%;
+  padding:0;
+  margin-bottom:24px;
+  float:left;
+  margin-top:26px;
+}
+.prism input[type=range]:focus {
+  outline: none;
+}
+.prism input[type=range]::-webkit-slider-runnable-track {
+  width: 90%;
+  height: 7px;
+  cursor: pointer;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+  background: #fff;
+  border-radius: 25px;
+  border: 0px solid #f6595d;
+}
+.prism input[type=range]::-webkit-slider-thumb {
+  box-shadow: 0px 0px 0px #f6595d, 0px 0px 0px #f6595d;
+  border: 3px solid #f6595d;
+  height: 32px;
+  width: 32px;
+  border-radius: 32px;
+  background: #ffffff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -12.5px;
+}
+.prism input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #f6595d;
+  border-bottom:1px solid #fff !important;
+}
+.prism input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 7px;
+  cursor: pointer;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+  background: #601c5b;
+  border-radius: 25px;
+  border: 0px solid #f6595d;
+}
+.prism input[type=range]::-moz-range-thumb {
+  box-shadow: 0px 0px 0px #f6595d, 0px 0px 0px #f6595d;
+  border: 3px solid #f6595d;
+  height: 32px;
+  width: 32px;
+  border-radius: 32px;
+  background: #ffffff;
+  cursor: pointer;
+}
+.prism input[type=range]::-ms-track {
+  width: 100%;
+  height: 7px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+.prism input[type=range]::-ms-fill-lower {
+  background: #f6595d;
+  border: 0px solid #f6595d;
+  border-radius: 50px;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+}
+.prism input[type=range]::-ms-fill-upper {
+  background: #f6595d;
+  border: 0px solid #f6595d;
+  border-radius: 50px;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
+}
+.prism input[type=range]::-ms-thumb {
+  box-shadow: 0px 0px 0px #f6595d, 0px 0px 0px #f6595d;
+  border: 3px solid #f6595d;
+  height: 32px;
+  width: 32px;
+  border-radius: 32px;
+  background: #ffffff;
+  cursor: pointer;
+  height: 7px;
+}
+.prism input[type=range]:focus::-ms-fill-lower {
+  background: #f6595d;
+}
+.prism input[type=range]:focus::-ms-fill-upper {
+  background: #f6595d;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.send-message {
+  border:1px solid #ccc;
+  margin-top:20px;
+  margin:0 auto;
+  padding:20px;
+  color:#8e8e8e;
+  border-radius:10px;
+  width:70%;
+  margin-bottom:30px
+}
+
+.message-cue {
+  font-size:11px;
+  color: #b9b9b9;
+  text-align:center;
+}
+
+.button-center {
+  margin: 0 auto;
+  display:block;
+  width:100%;
+  text-align:center;
+}
+
+.alert-warning {
+  background-color: #f8f8f8 !important;
+  border-color: #d3d3d3 !important;
+  color: #666 !important;
+}
+
+.col-20-smiley {
+  width:20%;
+  float:left;
+  font-size:36px;
+}
+
+.left-it {
+  text-align:left;
+}
+
+.center-it {
+  text-align:center;
+}
+
+.right-it {
+  text-align:right;
+  margin-bottom:24px;
+}
+
+.block-it {
+  display:block;
+}
+
+.none-it {
+  display:none;
+}
+
+
+/****************************** Data Grid Styling *************************/
+
+.datagrid-dnd {
+  padding: 5px;
+  border: dotted 2px #e8e8e8;
+  min-height: inherit;
+}
+
+/***************************** Form Component Buttons *********************/
+
+.formcomponents .formcomponentcontainer {
+  margin: 0 2px 2px 0;
+}
+
+.formcomponents .formcomponent {
+  text-align: left;
+  padding-left: 15px;
 }
