@@ -44,3 +44,5 @@ require('./well')(app);
 // Custom
 
 require('./rangeslider')(app);
+require('./timeline')(app);
+require('./prism')(app);
