@@ -3,7 +3,7 @@ module.exports = function(app) {
     'formioComponentsProvider',
     function(formioComponentsProvider) {
       formioComponentsProvider.register('surveyImage', {
-        icon: 'fa fa-list',
+        icon: 'fa fa-image',
         views: [
           {
             name: 'Display',
