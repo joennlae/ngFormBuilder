@@ -9,6 +9,12 @@ module.exports = {
     placeholder: 'Field Label',
     tooltip: 'The label for this field that will appear next to it.'
   },
+  dialogHeadline: {
+    label: 'Dialog Headline',
+  },
+  dialogLabelEvent: {
+    label: 'Dialog Event',
+  },
   defaultValue: {
     label: 'Default Value',
     placeholder: 'Default Value',
