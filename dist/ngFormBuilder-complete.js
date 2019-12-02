@@ -112097,6 +112097,12 @@ module.exports = {
     placeholder: 'Field Label',
     tooltip: 'The label for this field that will appear next to it.'
   },
+  dialogHeadline: {
+    label: 'Dialog Headline',
+  },
+  dialogLabelEvent: {
+    label: 'Dialog Event',
+  },
   defaultValue: {
     label: 'Default Value',
     placeholder: 'Default Value',
@@ -114763,7 +114769,7 @@ _dereq_('./ngFormBuilder.js');
 
 },{"./ngFormBuilder.js":603,"angular-drag-and-drop-lists":2,"ng-dialog":449,"ng-formio/src/formio-complete.js":519}],603:[function(_dereq_,module,exports){
 "use strict";
-/*! ng-formio-builder v2.38.1 | https://unpkg.com/ng-formio-builder@2.38.1/LICENSE.txt */
+/*! ng-formio-builder v2.38.6 | https://unpkg.com/ng-formio-builder@2.38.6/LICENSE.txt */
 /*global window: false, console: false, jQuery: false */
 /*jshint browser: true */
 
