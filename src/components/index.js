@@ -46,3 +46,4 @@ require('./well')(app);
 require('./rangeslider')(app);
 require('./timeline')(app);
 require('./prism')(app);
+require('./surveyImage')(app);
