@@ -111531,7 +111531,7 @@ module.exports = function(app) {
     'formioComponentsProvider',
     function(formioComponentsProvider) {
       formioComponentsProvider.register('surveyImage', {
-        icon: 'fa fa-list',
+        icon: 'fa fa-image',
         views: [
           {
             name: 'Display',
@@ -114843,7 +114843,7 @@ _dereq_('./ngFormBuilder.js');
 
 },{"./ngFormBuilder.js":604,"angular-drag-and-drop-lists":2,"ng-dialog":449,"ng-formio/src/formio-complete.js":519}],604:[function(_dereq_,module,exports){
 "use strict";
-/*! ng-formio-builder v2.38.6 | https://unpkg.com/ng-formio-builder@2.38.6/LICENSE.txt */
+/*! ng-formio-builder v2.38.8 | https://unpkg.com/ng-formio-builder@2.38.8/LICENSE.txt */
 /*global window: false, console: false, jQuery: false */
 /*jshint browser: true */
 
