@@ -7,7 +7,7 @@ module.exports = function(app) {
         views: [
           {
             name: 'Display',
-            template: 'formio/components/survey/display.html'
+            template: 'formio/components/surveyImage/display.html'
           },
           {
             name: 'Validation',
@@ -34,7 +34,7 @@ module.exports = function(app) {
     '$templateCache',
     function($templateCache) {
       // Create the settings markup.
-      $templateCache.put('formio/components/survey/display.html',
+      $templateCache.put('formio/components/surveyImage/display.html',
         '<ng-form>' +
           '<form-builder-option property="label"></form-builder-option>' +
           '<form-builder-option property="hideLabel"></form-builder-option>' +
@@ -42,6 +42,7 @@ module.exports = function(app) {
           '<form-builder-option property="tooltip"></form-builder-option>' +
           '<value-builder data="component.questions" default="component.questions" label="Questions" tooltip-text="The questions you would like to as in this survey question."></value-builder>' +
           '<value-builder data="component.values" default="component.values" label="Image URLs" tooltip-text="Put in the URLs of the image that should be displayed. Example: \'Satisfied\', \'Very Satisfied\', etc."></value-builder>' +
+          '<value-builder data="component.text_labels" default="component.text_labels" label="Text Labels" tooltip-text="Put in the text you want to display under the picture"></value-builder>' +
           '<form-builder-option property="defaultValue"></form-builder-option>' +
           '<form-builder-option property="errorLabel"></form-builder-option>' +
           '<form-builder-option property="customClass"></form-builder-option>' +
