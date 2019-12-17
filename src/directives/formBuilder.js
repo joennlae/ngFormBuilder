@@ -280,6 +280,7 @@ module.exports = ['debounce', function(debounce) {
           }
 
           $scope.formio.loadForms(query).then(function(resources) {
+            return resources;
             // Iterate through all resources.
             _each(resources, function(resource) {
               var resourceKey = resource.name;

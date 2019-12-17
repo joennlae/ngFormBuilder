@@ -109230,171 +109230,6 @@ module.exports = function(app) {
 
 },{}],540:[function(_dereq_,module,exports){
 "use strict";
-var _assign = _dereq_('lodash/assign');
-
-module.exports = function(app) {
-  app.config([
-    'formioComponentsProvider',
-    function(formioComponentsProvider) {
-      formioComponentsProvider.register('custom', {
-        icon: 'fa fa-cubes',
-        views: [
-          {
-            name: 'Display',
-            template: 'formio/components/custom/display.html'
-          },
-          {
-            name: 'Conditional',
-            template: 'formio/components/common/conditional.html'
-          }
-        ],
-        documentation: 'http://help.form.io/userguide/#custom'
-      });
-    }
-  ]);
-
-  app.controller('customComponent', [
-    '$scope',
-    'formioComponents',
-    function(
-      $scope,
-      formioComponents
-    ) {
-      // Because of the weirdnesses of prototype inheritence, components can't update themselves, only their properties.
-      $scope.customComponent = angular.copy($scope.component);
-      $scope.$watch('customComponent', function(newValue) {
-        if (newValue) {
-          // Don't allow a type of a real type.
-          newValue.type = (formioComponents.components.hasOwnProperty(newValue.type) ? 'custom' : newValue.type);
-          // Ensure some key settings are set.
-          newValue.key = newValue.key || newValue.type;
-          newValue.protected = (newValue.hasOwnProperty('protected') ? newValue.protected : false);
-          newValue.persistent = (newValue.hasOwnProperty('persistent') ? newValue.persistent : true);
-          $scope.updateKey(newValue);
-          _assign($scope.component, newValue);
-        }
-      });
-    }
-  ]);
-
-  app.run([
-    '$templateCache',
-    function($templateCache) {
-      // Create the settings markup.
-      $templateCache.put('formio/components/custom/display.html',
-        '<ng-form>' +
-        '<div class="form-group">' +
-        '<p>Custom components can be used to render special fields or widgets inside your app. For information on how to display in an app, see <a href="http://help.form.io/userguide/#custom" target="_blank">custom component documentation</a>.</p>' +
-        '<label for="json" form-builder-tooltip="Enter the JSON for this custom element.">{{\'Custom Element JSON\' | formioTranslate}}</label>' +
-        '<textarea ng-controller="customComponent" class="form-control" id="json" name="json" json-input ng-model="customComponent" placeholder="{}" rows="10"></textarea>' +
-        '</div>' +
-        '</ng-form>'
-      );
-    }
-  ]);
-};
-
-},{"lodash/assign":375}],541:[function(_dereq_,module,exports){
-"use strict";
-module.exports = function(app) {
-  app.config([
-    'formioComponentsProvider',
-    'FORM_OPTIONS',
-    function(
-      formioComponentsProvider,
-      FORM_OPTIONS
-    ) {
-      formioComponentsProvider.register('datagrid', {
-        fbtemplate: 'formio/formbuilder/datagrid.html',
-        icon: 'fa fa-th',
-        onEdit: ['$scope', function($scope) {
-          $scope.themes = FORM_OPTIONS.themes;
-          if (!$scope.component.addAnotherPosition) {
-            $scope.component.addAnotherPosition = 'bottom';
-          }
-          $scope.addAnotherPosition = [
-            {
-              value: 'top',
-              title: 'Top'
-            },
-            {
-              value: 'bottom',
-              title: 'Bottom'
-            },
-            {
-              value: 'both',
-              title: 'Both'
-            }
-          ];
-        }],
-        views: [
-          {
-            name: 'Display',
-            template: 'formio/components/datagrid/display.html'
-          },
-          {
-            name: 'Validation',
-            template: 'formio/components/datagrid/validate.html'
-          },
-          {
-            name: 'API',
-            template: 'formio/components/common/api.html'
-          },
-          {
-            name: 'Conditional',
-            template: 'formio/components/common/conditional.html'
-          }
-        ],
-        documentation: 'http://help.form.io/userguide/#datagrid',
-        noDndOverlay: true,
-        confirmRemove: true
-      });
-    }
-  ]);
-
-  app.run([
-    '$templateCache',
-    function($templateCache) {
-      $templateCache.put('formio/components/datagrid/display.html',
-        '<ng-form>' +
-        '<form-builder-option property="label"></form-builder-option>' +
-        '<form-builder-option property="hideLabel"></form-builder-option>' +
-        '<form-builder-option property="tooltip"></form-builder-option>' +
-        '<form-builder-option property="errorLabel"></form-builder-option>' +
-        '<form-builder-option property="addAnother"></form-builder-option>' +
-        '<div class="form-group">' +
-          '<label for="addAnotherPosition" form-builder-tooltip="Position for Add Another button with respect to Data Grid Array.">{{\'Add Another Position\' | formioTranslate}}</label>' +
-          '<select class="form-control" id="addAnotherPosition" name="addAnotherPosition" ng-options="position.value as position.title | formioTranslate for position in addAnotherPosition" ng-model="component.addAnotherPosition"></select>' +
-        '</div>' +
-        '<form-builder-option property="customClass"></form-builder-option>' +
-        '<form-builder-option property="striped"></form-builder-option>' +
-        '<form-builder-option property="bordered"></form-builder-option>' +
-        '<form-builder-option property="hover"></form-builder-option>' +
-        '<form-builder-option property="condensed"></form-builder-option>' +
-        '<form-builder-option property="clearOnHide"></form-builder-option>' +
-        '<form-builder-option property="protected"></form-builder-option>' +
-        '<form-builder-option property="persistent"></form-builder-option>' +
-        '<form-builder-option property="encrypted" class="form-builder-premium"></form-builder-option>' +
-        '<form-builder-option property="hidden"></form-builder-option>' +
-        '<form-builder-option property="disabled"></form-builder-option>' +
-        '<form-builder-option property="tableView"></form-builder-option>' +
-        '</ng-form>'
-      );
-
-      $templateCache.put('formio/components/datagrid/validate.html',
-        '<ng-form>' +
-        '<form-builder-option property="validate.minLength"></form-builder-option>' +
-        '<form-builder-option property="validate.maxLength"></form-builder-option>' +
-        '<form-builder-option property="validate.customMessage"></form-builder-option>' +
-        '<form-builder-option-custom-validation></form-builder-option-custom-validation>' +
-        '</ng-form>'
-      );
-    }
-  ]);
-};
-
-},{}],542:[function(_dereq_,module,exports){
-"use strict";
 module.exports = function(app) {
   app.config([
     'formioComponentsProvider',
@@ -109576,7 +109411,7 @@ module.exports = function(app) {
   ]);
 };
 
-},{}],543:[function(_dereq_,module,exports){
+},{}],541:[function(_dereq_,module,exports){
 "use strict";
 module.exports = function(app) {
   app.config([
@@ -109661,116 +109496,7 @@ module.exports = function(app) {
   ]);
 };
 
-},{}],544:[function(_dereq_,module,exports){
-"use strict";
-module.exports = function(app) {
-  app.config([
-    'formioComponentsProvider',
-    function(formioComponentsProvider) {
-      formioComponentsProvider.register('editgrid', {
-        fbtemplate: 'formio/formbuilder/editgrid.html',
-        icon: 'fa fa-tasks',
-        views: [
-          {
-            name: 'Display',
-            template: 'formio/components/editgrid/display.html'
-          },
-          {
-            name: 'Templates',
-            template: 'formio/components/editgrid/templates.html'
-          },
-          {
-            name: 'Validation',
-            template: 'formio/components/editgrid/validate.html'
-          },
-          {
-            name: 'API',
-            template: 'formio/components/common/api.html'
-          },
-          {
-            name: 'Conditional',
-            template: 'formio/components/common/conditional.html'
-          }
-        ],
-        documentation: 'http://help.form.io/userguide/#editgrid',
-        noDndOverlay: true,
-        confirmRemove: true
-      });
-    }
-  ]);
-
-  app.run([
-    '$templateCache',
-    function($templateCache) {
-      $templateCache.put('formio/components/editgrid/display.html',
-        '<ng-form>' +
-        '<form-builder-option property="label"></form-builder-option>' +
-        '<form-builder-option property="hideLabel"></form-builder-option>' +
-        '<form-builder-option property="tooltip"></form-builder-option>' +
-        '<form-builder-option property="clearOnHide"></form-builder-option>' +
-        '<form-builder-option property="protected"></form-builder-option>' +
-        '<form-builder-option property="persistent"></form-builder-option>' +
-        '<form-builder-option property="encrypted" class="form-builder-premium"></form-builder-option>' +
-        '<form-builder-option property="hidden"></form-builder-option>' +
-        '<form-builder-option property="disabled"></form-builder-option>' +
-        '<form-builder-option property="tableView"></form-builder-option>' +
-        '</ng-form>'
-      );
-
-      $templateCache.put('formio/components/editgrid/templates.html',
-        '<ng-form>' +
-        '<div class="form-group">' +
-        '  <label for="headerTemplate">{{\'Header Template\' | formioTranslate}}</label>' +
-        '  <textarea class="form-control" rows="3" name="headerTemplate" ng-model="component.templates.header" placeholder="/*** Lodash Template Code ***/"></textarea>' +
-        '  <p class="text-muted">Two available variables. "value" is the array of row data and "components" is the array of components in the grid.</p>' +
-        '</div>' +
-        '<div class="form-group">' +
-        '  <label for="rowTemplate">{{\'Row Template\' | formioTranslate}}</label>' +
-        '  <textarea class="form-control" rows="6" name="rowTemplate" ng-model="component.templates.row" placeholder="/*** Lodash Template Code ***/"></textarea>' +
-        '  <p class="text-muted">Two available variables. "row" is an object of one row\'s data and "components" is the array of components in the grid. To add click events, add the classes "editRow" and "removeRow" to elements.</p>' +
-        '</div>' +
-        '<div class="form-group">' +
-        '  <label for="footerTemplate">{{\'Footer Template\' | formioTranslate}}</label>' +
-        '  <textarea class="form-control" rows="3" name="footerTemplate" ng-model="component.templates.footer" placeholder="/*** Lodash Template Code ***/"></textarea>' +
-        '  <p class="text-muted">Two available variables. "value" is the array of row data and "components" is the array of components in the grid.</p>' +
-        '</div>' +
-        '<form-builder-option property="customClass"></form-builder-option>' +
-        '<form-builder-option property="rowClass"></form-builder-option>' +
-        '<form-builder-option property="addAnother"></form-builder-option>' +
-        '<form-builder-option property="saveRow"></form-builder-option>' +
-        '<form-builder-option property="removeRow"></form-builder-option>' +
-        '</ng-form>'
-      );
-
-      $templateCache.put('formio/components/editgrid/validate.html',
-        '<ng-form>' +
-        '    <label>{{\'Row View Validation\' | formioTranslate}}</label>' +
-        '    <textarea class="form-control" rows="5" id="custom" name="custom" ng-model="component.validate.row" placeholder="/*** Example Code ***/\nvalid = (row.myfield === \'some value\') ? true : \'Must be some value\';">{{ component.validate.row }}</textarea>' +
-        '    <small>' +
-        '      <p>Normal validation does not run when a row is in "View" mode. This validation allows running custom view validation and returning an error per row.</p>' +
-        '      <p>You must assign the <strong>valid</strong> variable as either <strong>true</strong> or an error message if validation fails.</p>' +
-        '      <p>The variables <strong>row</strong>, <strong>component</strong>, and <strong>valid</strong> are provided.</p>' +
-        '    </small>' +
-        '    <form-builder-option property="validate.customMessage"></form-builder-option>' +
-        '    <form-builder-option-custom-validation></form-builder-option-custom-validation>' +
-        '</ng-form>'
-      );
-
-      $templateCache.put('formio/formbuilder/editgrid.html',
-        '<fieldset>' +
-        '<label ng-if="labelVisible()" class="control-label">' +
-          '{{ component.label }} ' +
-          '<formio-component-tooltip></formio-component-tooltip>' +
-        '</label>' +
-        '<form-builder-list component="component" form="form" formio="::formio"></form-builder-list>' +
-        '</fieldset>'
-      );
-
-    }
-  ]);
-};
-
-},{}],545:[function(_dereq_,module,exports){
+},{}],542:[function(_dereq_,module,exports){
 "use strict";
 var _cloneDeep = _dereq_('lodash/cloneDeep');
 var _each = _dereq_('lodash/each');
@@ -109820,7 +109546,7 @@ module.exports = function(app) {
   ]);
 };
 
-},{"lodash/cloneDeep":380,"lodash/each":385}],546:[function(_dereq_,module,exports){
+},{"lodash/cloneDeep":380,"lodash/each":385}],543:[function(_dereq_,module,exports){
 "use strict";
 module.exports = function(app) {
   app.config([
@@ -109883,228 +109609,7 @@ module.exports = function(app) {
   ]);
 };
 
-},{}],547:[function(_dereq_,module,exports){
-"use strict";
-var _map = _dereq_('lodash/map');
-module.exports = function(app) {
-  app.config([
-    'formioComponentsProvider',
-    function(
-      formioComponentsProvider
-    ) {
-      formioComponentsProvider.register('file', {
-        onEdit: [
-          '$scope',
-          'Formio',
-          function($scope, Formio) {
-            // Pull out title and name from the list of storage plugins.
-            $scope.storage = _map(Formio.providers.storage, function(storage, key) {
-              return {
-                title: storage.title,
-                name: key
-              };
-            });
-          }
-        ],
-        icon: 'fa fa-file',
-        views: [
-          {
-            name: 'Display',
-            template: 'formio/components/file/display.html'
-          },
-          {
-            name: 'Validation',
-            template: 'formio/components/file/validate.html'
-          },
-          {
-            name: 'API',
-            template: 'formio/components/common/api.html'
-          },
-          {
-            name: 'Layout',
-            template: 'formio/components/common/layout.html'
-          },
-          {
-            name: 'Conditional',
-            template: 'formio/components/common/conditional.html'
-          }
-        ],
-        documentation: 'http://help.form.io/userguide/#file'
-      });
-    }
-  ]);
-  app.run([
-    '$templateCache',
-    function($templateCache) {
-      // Create the settings markup.
-      $templateCache.put('formio/components/file/display.html',
-        '<ng-form>' +
-          '<form-builder-option property="label"></form-builder-option>' +
-          '<form-builder-option property="hideLabel"></form-builder-option>' +
-          '<form-builder-option-label-position></form-builder-option-label-position>' +
-          '<form-builder-option property="tooltip"></form-builder-option>' +
-          '<div class="form-group">' +
-            '<label for="storage" form-builder-tooltip="Which storage to save the files in.">{{\'Storage\' | formioTranslate}}</label>' +
-            '<select class="form-control" id="storage" name="storage" ng-options="store.name as store.title | formioTranslate for store in storage" ng-model="component.storage"></select>' +
-          '</div>' +
-          '<form-builder-option property="url" ng-show="component.storage === \'url\'"></form-builder-option>' +
-          '<form-builder-option property="dir"></form-builder-option>' +
-          '<form-builder-option property="image"></form-builder-option>' +
-          '<form-builder-option property="imageSize" ng-if="component.image"></form-builder-option>' +
-          '<form-builder-option property="filePattern"></form-builder-option>' +
-          '<form-builder-option property="fileMinSize"></form-builder-option>' +
-          '<form-builder-option property="fileMaxSize"></form-builder-option>' +
-          '<form-builder-option property="customClass"></form-builder-option>' +
-          '<form-builder-option property="tabindex"></form-builder-option>' +
-          '<form-builder-option property="multiple"></form-builder-option>' +
-          '<form-builder-option property="clearOnHide"></form-builder-option>' +
-          '<form-builder-option property="protected"></form-builder-option>' +
-          '<form-builder-option property="persistent"></form-builder-option>' +
-          '<form-builder-option property="encrypted" class="form-builder-premium"></form-builder-option>' +
-          '<form-builder-option property="hidden"></form-builder-option>' +
-          '<form-builder-option property="autofocus"></form-builder-option>' +
-          '<form-builder-option property="disabled"></form-builder-option>' +
-          '<form-builder-option property="tableView"></form-builder-option>' +
-        '</ng-form>'
-      );
-
-      $templateCache.put('formio/components/file/validate.html',
-        '<ng-form>' +
-          '<form-builder-option property="validate.required"></form-builder-option>' +
-          '<form-builder-option property="validate.customMessage"></form-builder-option>' +
-        '</ng-form>'
-      );
-    }
-  ]);
-};
-
-},{"lodash/map":421}],548:[function(_dereq_,module,exports){
-"use strict";
-module.exports = function(app) {
-  app.config([
-    'formioComponentsProvider',
-    function(formioComponentsProvider) {
-      formioComponentsProvider.register('form', {
-        fbtemplate: 'formio/formbuilder/form.html',
-        icon: 'fa fa-wpforms',
-        views: [
-          {
-            name: 'Display',
-            template: 'formio/components/form/display.html'
-          },
-          {
-            name: 'Data',
-            template: 'formio/components/common/data.html'
-          },
-          {
-            name: 'API',
-            template: 'formio/components/common/api.html'
-          },
-          {
-            name: 'Conditional',
-            template: 'formio/components/common/conditional.html'
-          }
-        ],
-        documentation: 'http://help.form.io/userguide/#form',
-        onEdit: ['$scope', function($scope) {
-          $scope.forms = [];
-          $scope.component.project = $scope.formio.projectId;
-          $scope.formio.loadForms({params: {
-            limit: 4294967295,
-            select: '_id,title,type'
-          }}).then(function(forms) {
-            var data = [];
-            if ($scope.form._id) {
-              angular.forEach(forms, function(form) {
-                if (form._id !== $scope.form._id) {
-                  data.push(form);
-                }
-              });
-              $scope.forms = data;
-            }
-            else {
-              $scope.forms = forms;
-            }
-
-            if (!$scope.component.form) {
-              $scope.component.form = forms[0]._id;
-            }
-          });
-        }]
-      });
-
-      // Override the controller for form building.
-      var formComponent = formioComponentsProvider.$get().components.form;
-      var formController = formComponent.controller;
-      formComponent.controller = [
-        '$scope',
-        '$controller',
-        function(
-          $scope,
-          $controller
-        ) {
-          if (!$scope.builder) {
-            return $controller(formController, {$scope: $scope});
-          }
-
-          var forms = {};
-          $scope.form = {title: 'Unknown form'};
-          $scope.formio.loadForms({params: {
-            limit: 4294967295,
-            select: '_id,title,type'
-          }}).then(function(formioForms) {
-            angular.forEach(formioForms, function(form) {
-              forms[form._id] = form;
-            });
-
-            if (
-              $scope.component.form &&
-              ($scope.form._id !== $scope.component.form) &&
-              forms.hasOwnProperty($scope.component.form)
-            ) {
-              $scope.form = forms[$scope.component.form];
-            }
-          });
-
-          $scope.$watch('component.form', function(formId) {
-            if (!formId || !forms.hasOwnProperty(formId)) {
-              return;
-            }
-            $scope.form = forms[formId];
-          });
-        }
-      ];
-    }
-  ]);
-  app.run([
-    '$templateCache',
-    function($templateCache) {
-      $templateCache.put('formio/formbuilder/form.html', '<span class="hidden-element-text">{{ form.title }} {{ form.type }}</span>');
-
-      // Create the settings markup.
-      $templateCache.put('formio/components/form/display.html',
-        '<ng-form>' +
-          '<form-builder-option property="label" label="Name" placeholder="Enter the name for this form field" title="The name for this field. It is only used for administrative purposes such as generating the automatic property name in the API tab (which may be changed manually)."></form-builder-option>' +
-          '<form-builder-option property="hideLabel"></form-builder-option>' +
-          '<form-builder-option-label-position></form-builder-option-label-position>' +
-          '<div class="form-group">' +
-            '<label for="form" form-builder-tooltip="The form to load within this form component..">{{\'Form\' | formioTranslate}}</label>' +
-            '<select class="form-control" id="form" name="form" ng-options="value._id as value.title for value in forms" ng-model="component.form"></select>' +
-          '</div>' +
-          '<form-builder-option property="customClass"></form-builder-option>' +
-          '<form-builder-option property="reference"></form-builder-option>' +
-          '<form-builder-option property="clearOnHide"></form-builder-option>' +
-          '<form-builder-option property="protected"></form-builder-option>' +
-          '<form-builder-option property="persistent"></form-builder-option>' +
-          '<form-builder-option property="encrypted" class="form-builder-premium"></form-builder-option>' +
-          '<form-builder-option property="tableView"></form-builder-option>' +
-        '</ng-form>'
-      );
-    }
-  ]);
-};
-
-},{}],549:[function(_dereq_,module,exports){
+},{}],544:[function(_dereq_,module,exports){
 "use strict";
 module.exports = function(app) {
   app.config([
@@ -110165,7 +109670,7 @@ module.exports = function(app) {
   ]);
 };
 
-},{}],550:[function(_dereq_,module,exports){
+},{}],545:[function(_dereq_,module,exports){
 "use strict";
 module.exports = function(app) {
   app.config([
@@ -110227,7 +109732,7 @@ module.exports = function(app) {
   ]);
 };
 
-},{}],551:[function(_dereq_,module,exports){
+},{}],546:[function(_dereq_,module,exports){
 "use strict";
 var app = angular.module('ngFormBuilder');
 
@@ -110235,7 +109740,7 @@ var app = angular.module('ngFormBuilder');
 _dereq_('./components')(app);
 _dereq_('./textfield')(app);
 _dereq_('./number')(app);
-_dereq_('./password')(app);
+//require('./password')(app);
 _dereq_('./textarea')(app);
 _dereq_('./checkbox')(app);
 _dereq_('./selectboxes')(app);
@@ -110254,13 +109759,13 @@ _dereq_('./day')(app);
 _dereq_('./time')(app);
 _dereq_('./currency')(app);
 _dereq_('./hidden')(app);
-_dereq_('./resource')(app);
-_dereq_('./file')(app);
-_dereq_('./form')(app);
-_dereq_('./signature')(app);
-_dereq_('./custom')(app);
-_dereq_('./datagrid')(app);
-_dereq_('./editgrid')(app);
+//require('./resource')(app)
+//require('./file')(app);
+//require('./form')(app);
+//require('./signature')(app);
+//require('./custom')(app);
+//require('./datagrid')(app);
+//require('./editgrid')(app);
 _dereq_('./survey')(app);
 
 // Layout
@@ -110279,7 +109784,7 @@ _dereq_('./timeline')(app);
 _dereq_('./prism')(app);
 _dereq_('./surveyImage')(app);
 
-},{"./address":532,"./button":533,"./checkbox":534,"./columns":535,"./components":536,"./container":537,"./content":538,"./currency":539,"./custom":540,"./datagrid":541,"./datetime":542,"./day":543,"./editgrid":544,"./email":545,"./fieldset":546,"./file":547,"./form":548,"./hidden":549,"./htmlelement":550,"./number":552,"./page":553,"./panel":554,"./password":555,"./phonenumber":556,"./prism":557,"./radio":558,"./rangeslider":559,"./resource":560,"./select":561,"./selectboxes":562,"./signature":563,"./survey":564,"./surveyImage":565,"./table":566,"./textarea":567,"./textfield":568,"./time":569,"./timeline":570,"./well":571}],552:[function(_dereq_,module,exports){
+},{"./address":532,"./button":533,"./checkbox":534,"./columns":535,"./components":536,"./container":537,"./content":538,"./currency":539,"./datetime":540,"./day":541,"./email":542,"./fieldset":543,"./hidden":544,"./htmlelement":545,"./number":547,"./page":548,"./panel":549,"./phonenumber":550,"./prism":551,"./radio":552,"./rangeslider":553,"./select":554,"./selectboxes":555,"./survey":556,"./surveyImage":557,"./table":558,"./textarea":559,"./textfield":560,"./time":561,"./timeline":562,"./well":563}],547:[function(_dereq_,module,exports){
 "use strict";
 module.exports = function(app) {
   app.config([
@@ -110415,7 +109920,7 @@ module.exports = function(app) {
   ]);
 };
 
-},{}],553:[function(_dereq_,module,exports){
+},{}],548:[function(_dereq_,module,exports){
 "use strict";
 module.exports = function(app) {
   app.config([
@@ -110436,7 +109941,7 @@ module.exports = function(app) {
   ]);
 };
 
-},{}],554:[function(_dereq_,module,exports){
+},{}],549:[function(_dereq_,module,exports){
 "use strict";
 module.exports = function(app) {
   app.config([
@@ -110551,83 +110056,7 @@ module.exports = function(app) {
   ]);
 };
 
-},{}],555:[function(_dereq_,module,exports){
-"use strict";
-module.exports = function(app) {
-  app.config([
-    'formioComponentsProvider',
-    function(formioComponentsProvider) {
-      formioComponentsProvider.register('password', {
-        icon: 'fa fa-asterisk',
-        views: [
-          {
-            name: 'Display',
-            template: 'formio/components/password/display.html'
-          },
-          {
-            name: 'Validation',
-            template: 'formio/components/textfield/validate.html'
-          },
-          {
-            name: 'API',
-            template: 'formio/components/common/api.html'
-          },
-          {
-            name: 'Layout',
-            template: 'formio/components/common/layout.html'
-          },
-          {
-            name: 'Conditional',
-            template: 'formio/components/common/conditional.html'
-          }
-        ],
-        documentation: 'http://help.form.io/userguide/#password',
-        template: 'formio/components/password.html'
-      });
-    }
-  ]);
-  app.run([
-    '$templateCache',
-    function(
-      $templateCache
-    ) {
-      // Disable dragging on password inputs because it breaks dndLists
-      var textFieldTmpl = $templateCache.get('formio/components/textfield.html');
-      var passwordTmpl = textFieldTmpl.replace(
-        /<input type="{{ component.inputType }}" /g,
-        '<input type="{{ component.inputType }}" dnd-nodrag '
-      );
-      $templateCache.put('formio/components/password.html', passwordTmpl);
-
-      // Create the settings markup.
-      $templateCache.put('formio/components/password/display.html',
-        '<ng-form>' +
-          '<form-builder-option property="label"></form-builder-option>' +
-          '<form-builder-option property="hideLabel"></form-builder-option>' +
-          '<form-builder-option-label-position></form-builder-option-label-position>' +
-          '<form-builder-option property="placeholder"></form-builder-option>' +
-          '<form-builder-option property="description"></form-builder-option>' +
-          '<form-builder-option property="tooltip"></form-builder-option>' +
-          '<form-builder-option property="errorLabel"></form-builder-option>' +
-          '<form-builder-option property="prefix"></form-builder-option>' +
-          '<form-builder-option property="suffix"></form-builder-option>' +
-          '<form-builder-option property="customClass"></form-builder-option>' +
-          '<form-builder-option property="tabindex"></form-builder-option>' +
-          '<form-builder-option property="clearOnHide"></form-builder-option>' +
-          '<form-builder-option property="protected"></form-builder-option>' +
-          '<form-builder-option property="persistent"></form-builder-option>' +
-          '<form-builder-option property="hidden"></form-builder-option>' +
-          '<form-builder-option property="autofocus"></form-builder-option>' +
-          '<form-builder-option property="disabled"></form-builder-option>' +
-          '<form-builder-option property="dataGridLabel"></form-builder-option>' +
-          '<form-builder-option property="tableView"></form-builder-option>' +
-        '</ng-form>'
-      );
-    }
-  ]);
-};
-
-},{}],556:[function(_dereq_,module,exports){
+},{}],550:[function(_dereq_,module,exports){
 "use strict";
 module.exports = function(app) {
   app.config([
@@ -110710,7 +110139,7 @@ module.exports = function(app) {
   ]);
 };
 
-},{}],557:[function(_dereq_,module,exports){
+},{}],551:[function(_dereq_,module,exports){
 "use strict";
 module.exports = function (app) {
   app.config([
@@ -110783,7 +110212,7 @@ module.exports = function (app) {
     }
   ]);
 };
-},{}],558:[function(_dereq_,module,exports){
+},{}],552:[function(_dereq_,module,exports){
 "use strict";
 module.exports = function(app) {
   app.config([
@@ -110862,7 +110291,7 @@ module.exports = function(app) {
   ]);
 };
 
-},{}],559:[function(_dereq_,module,exports){
+},{}],553:[function(_dereq_,module,exports){
 "use strict";
 module.exports = function(app) {
   app.config([
@@ -110931,111 +110360,7 @@ module.exports = function(app) {
     }
   ]);
 };
-},{}],560:[function(_dereq_,module,exports){
-"use strict";
-module.exports = function(app) {
-  app.config([
-    'formioComponentsProvider',
-    function(formioComponentsProvider) {
-      formioComponentsProvider.register('resource', {
-        onEdit: ['$scope', function($scope) {
-          $scope.resources = [];
-          $scope.component.project = $scope.formio.projectId;
-          $scope.formio.loadForms({params: {
-            type: 'resource',
-            limit: 4294967295,
-            select: '_id,title'
-          }}).then(function(resources) {
-            $scope.resources = resources;
-            if (!$scope.component.resource) {
-              $scope.component.resource = resources[0]._id;
-            }
-          });
-        }],
-        icon: 'fa fa-files-o',
-        views: [
-          {
-            name: 'Display',
-            template: 'formio/components/resource/display.html'
-          },
-          {
-            name: 'Validation',
-            template: 'formio/components/resource/validate.html'
-          },
-          {
-            name: 'API',
-            template: 'formio/components/common/api.html'
-          },
-          {
-            name: 'Layout',
-            template: 'formio/components/common/layout.html'
-          },
-          {
-            name: 'Conditional',
-            template: 'formio/components/common/conditional.html'
-          }
-        ],
-        documentation: 'http://help.form.io/userguide/#resource'
-      });
-    }
-  ]);
-  app.run([
-    '$templateCache',
-    function($templateCache) {
-      // Create the settings markup.
-      $templateCache.put('formio/components/resource/display.html',
-        '<ng-form>' +
-          '<form-builder-option property="label"></form-builder-option>' +
-          '<form-builder-option property="hideLabel"></form-builder-option>' +
-          '<form-builder-option-label-position></form-builder-option-label-position>' +
-          '<form-builder-option property="placeholder"></form-builder-option>' +
-          '<form-builder-option property="tooltip"></form-builder-option>' +
-          '<div class="form-group">' +
-            '<label for="resource" form-builder-tooltip="The resource to be used with this field.">{{\'Resource\' | formioTranslate}}</label>' +
-            '<select class="form-control" id="resource" name="resource" ng-options="value._id as value.title for value in resources" ng-model="component.resource"></select>' +
-          '</div>' +
-          '<div class="form-group">' +
-            '<label for="selectFields" form-builder-tooltip="The properties on the resource to return as part of the options. Separate property names by commas. If left blank, all properties will be returned.">{{\'Select Fields\' | formioTranslate}}</label>' +
-            '<input type="text" class="form-control" id="selectFields" name="selectFields" ng-model="component.selectFields" placeholder="Comma separated list of fields to select." value="{{ component.selectFields }}">' +
-          '</div>' +
-          '<div class="form-group">' +
-            '<label for="searchFields" form-builder-tooltip="A list of search filters based on the fields of the resource. See the <a target=\'_blank\' href=\'https://github.com/travist/resourcejs#filtering-the-results\'>Resource.js documentation</a> for the format of these filters.">{{\'Search Fields\' | formioTranslate}}</label>' +
-            '<input type="text" class="form-control" id="searchFields" name="searchFields" ng-model="component.searchFields" ng-list placeholder="The fields to query on the server" value="{{ component.searchFields }}">' +
-          '</div>' +
-          '<div class="form-group">' +
-            '<label for="template" form-builder-tooltip="The HTML template for the result data items.">{{\'Item Template\' | formioTranslate}}</label>' +
-            '<textarea class="form-control" id="template" name="template" ng-model="component.template" rows="3">{{ component.template }}</textarea>' +
-          '</div>' +
-          '<form-builder-option property="errorLabel"></form-builder-option>' +
-          '<form-builder-option property="customClass"></form-builder-option>' +
-          '<form-builder-option property="tabindex"></form-builder-option>' +
-          '<form-builder-option property="multiple" label="Allow Multiple Resources"></form-builder-option>' +
-          '<form-builder-option property="clearOnHide"></form-builder-option>' +
-          '<form-builder-option property="reference"></form-builder-option>' +
-          '<form-builder-option property="addResource"></form-builder-option>' +
-          '<form-builder-option property="addResourceLabel" ng-if="component.addResource"></form-builder-option>' +
-          '<form-builder-option property="disabled"></form-builder-option>' +
-          '<form-builder-option property="persistent"></form-builder-option>' +
-          '<form-builder-option property="encrypted" class="form-builder-premium"></form-builder-option>' +
-          '<form-builder-option property="hidden"></form-builder-option>' +
-          '<form-builder-option property="autofocus"></form-builder-option>' +
-          '<form-builder-option property="dataGridLabel"></form-builder-option>' +
-          '<form-builder-option property="tableView"></form-builder-option>' +
-        '</ng-form>'
-      );
-
-      // Create the API markup.
-      $templateCache.put('formio/components/resource/validate.html',
-        '<ng-form>' +
-          '<form-builder-option property="validate.required"></form-builder-option>' +
-          '<form-builder-option property="validate.customMessage"></form-builder-option>' +
-        '</ng-form>'
-      );
-    }
-  ]);
-};
-
-},{}],561:[function(_dereq_,module,exports){
+},{}],554:[function(_dereq_,module,exports){
 "use strict";
 var _clone = _dereq_('lodash/clone');
 module.exports = function(app) {
@@ -111296,7 +110621,7 @@ module.exports = function(app) {
   ]);
 };
 
-},{"lodash/clone":379}],562:[function(_dereq_,module,exports){
+},{"lodash/clone":379}],555:[function(_dereq_,module,exports){
 "use strict";
 module.exports = function(app) {
   app.config([
@@ -111383,75 +110708,7 @@ module.exports = function(app) {
   ]);
 };
 
-},{}],563:[function(_dereq_,module,exports){
-"use strict";
-module.exports = function(app) {
-  app.config([
-    'formioComponentsProvider',
-    function(formioComponentsProvider) {
-      formioComponentsProvider.register('signature', {
-        icon: 'fa fa-pencil',
-        views: [
-          {
-            name: 'Display',
-            template: 'formio/components/signature/display.html'
-          },
-          {
-            name: 'Validation',
-            template: 'formio/components/signature/validate.html'
-          },
-          {
-            name: 'API',
-            template: 'formio/components/common/api.html'
-          },
-          {
-            name: 'Layout',
-            template: 'formio/components/common/layout.html'
-          },
-          {
-            name: 'Conditional',
-            template: 'formio/components/common/conditional.html'
-          }
-        ],
-        documentation: 'http://help.form.io/userguide/#signature'
-      });
-    }
-  ]);
-  app.run([
-    '$templateCache',
-    function($templateCache) {
-      // Create the settings markup.
-      $templateCache.put('formio/components/signature/display.html',
-        '<ng-form>' +
-          '<form-builder-option property="footer" label="Footer Label" placeholder="Footer Label" title="The footer text that appears below the signature area."></form-builder-option>' +
-          '<form-builder-option property="tooltip"></form-builder-option>' +
-          '<form-builder-option property="width" label="Width" placeholder="Width" title="The width of the signature area."></form-builder-option>' +
-          '<form-builder-option property="height" label="Height" placeholder="Height" title="The height of the signature area."></form-builder-option>' +
-          '<form-builder-option property="backgroundColor" label="Background Color" placeholder="Background Color" title="The background color of the signature area."></form-builder-option>' +
-          '<form-builder-option property="penColor" label="Pen Color" placeholder="Pen Color" title="The ink color for the signature area."></form-builder-option>' +
-          '<form-builder-option property="customClass"></form-builder-option>' +
-          '<form-builder-option property="clearOnHide"></form-builder-option>' +
-          '<form-builder-option property="disabled"></form-builder-option>' +
-          '<form-builder-option property="autofocus"></form-builder-option>' +
-          '<form-builder-option property="persistent"></form-builder-option>' +
-          '<form-builder-option property="encrypted" class="form-builder-premium"></form-builder-option>' +
-          '<form-builder-option property="hidden"></form-builder-option>' +
-          '<form-builder-option property="tableView"></form-builder-option>' +
-        '</ng-form>'
-      );
-
-      // Create the Validation markup.
-      $templateCache.put('formio/components/signature/validate.html',
-        '<ng-form>' +
-          '<form-builder-option property="validate.required"></form-builder-option>' +
-          '<form-builder-option property="validate.customMessage"></form-builder-option>' +
-        '</ng-form>'
-      );
-    }
-  ]);
-};
-
-},{}],564:[function(_dereq_,module,exports){
+},{}],556:[function(_dereq_,module,exports){
 "use strict";
 module.exports = function(app) {
   app.config([
@@ -111524,7 +110781,7 @@ module.exports = function(app) {
   ]);
 };
 
-},{}],565:[function(_dereq_,module,exports){
+},{}],557:[function(_dereq_,module,exports){
 "use strict";
 module.exports = function(app) {
   app.config([
@@ -111598,7 +110855,7 @@ module.exports = function(app) {
   ]);
 };
 
-},{}],566:[function(_dereq_,module,exports){
+},{}],558:[function(_dereq_,module,exports){
 "use strict";
 module.exports = function(app) {
   app.config([
@@ -111671,7 +110928,7 @@ module.exports = function(app) {
   ]);
 };
 
-},{}],567:[function(_dereq_,module,exports){
+},{}],559:[function(_dereq_,module,exports){
 "use strict";
 module.exports = function(app) {
   app.config([
@@ -111838,7 +111095,7 @@ module.exports = function(app) {
   ]);
 };
 
-},{}],568:[function(_dereq_,module,exports){
+},{}],560:[function(_dereq_,module,exports){
 "use strict";
 module.exports = function(app) {
   app.config([
@@ -111978,7 +111235,7 @@ module.exports = function(app) {
   ]);
 };
 
-},{}],569:[function(_dereq_,module,exports){
+},{}],561:[function(_dereq_,module,exports){
 "use strict";
 var _cloneDeep = _dereq_('lodash/cloneDeep');
 var _each = _dereq_('lodash/each');
@@ -112031,7 +111288,7 @@ module.exports = function(app) {
   ]);
 };
 
-},{"lodash/cloneDeep":380,"lodash/each":385}],570:[function(_dereq_,module,exports){
+},{"lodash/cloneDeep":380,"lodash/each":385}],562:[function(_dereq_,module,exports){
 "use strict";
 module.exports = function (app) {
   app.config([
@@ -112111,7 +111368,7 @@ module.exports = function (app) {
     }
   ]);
 };
-},{}],571:[function(_dereq_,module,exports){
+},{}],563:[function(_dereq_,module,exports){
 "use strict";
 module.exports = function(app) {
   app.config([
@@ -112159,7 +111416,7 @@ module.exports = function(app) {
   ]);
 };
 
-},{}],572:[function(_dereq_,module,exports){
+},{}],564:[function(_dereq_,module,exports){
 "use strict";
 /**
   * These are component options that can be reused
@@ -112529,7 +111786,7 @@ module.exports = {
   }
 };
 
-},{}],573:[function(_dereq_,module,exports){
+},{}],565:[function(_dereq_,module,exports){
 "use strict";
 module.exports = {
   actions: [
@@ -112612,7 +111869,7 @@ module.exports = {
   ]
 };
 
-},{}],574:[function(_dereq_,module,exports){
+},{}],566:[function(_dereq_,module,exports){
 "use strict";
 /*eslint max-statements: 0*/
 var _cloneDeep = _dereq_('lodash/cloneDeep');
@@ -112896,6 +112153,7 @@ module.exports = ['debounce', function(debounce) {
           }
 
           $scope.formio.loadForms(query).then(function(resources) {
+            return resources;
             // Iterate through all resources.
             _each(resources, function(resource) {
               var resourceKey = resource.name;
@@ -113057,7 +112315,7 @@ module.exports = ['debounce', function(debounce) {
   };
 }];
 
-},{"lodash/capitalize":377,"lodash/cloneDeep":380,"lodash/each":385,"lodash/groupBy":392,"lodash/merge":424,"lodash/omitBy":426,"lodash/upperFirst":443}],575:[function(_dereq_,module,exports){
+},{"lodash/capitalize":377,"lodash/cloneDeep":380,"lodash/each":385,"lodash/groupBy":392,"lodash/merge":424,"lodash/omitBy":426,"lodash/upperFirst":443}],567:[function(_dereq_,module,exports){
 "use strict";
 /**
  * Create the form-builder-component directive.
@@ -113073,7 +112331,7 @@ module.exports = [
   }
 ];
 
-},{}],576:[function(_dereq_,module,exports){
+},{}],568:[function(_dereq_,module,exports){
 "use strict";
 'use strict';
 var utils = _dereq_('formiojs/utils').default;
@@ -113169,7 +112427,7 @@ module.exports = [
   }
 ];
 
-},{"formiojs/utils":187,"lodash/get":391,"lodash/reject":431}],577:[function(_dereq_,module,exports){
+},{"formiojs/utils":187,"lodash/get":391,"lodash/reject":431}],569:[function(_dereq_,module,exports){
 "use strict";
 var _isNumber = _dereq_('lodash/isNumber');
 var _camelCase = _dereq_('lodash/camelCase');
@@ -113520,7 +112778,7 @@ module.exports = [
   }
 ];
 
-},{"lodash/assign":375,"lodash/camelCase":376,"lodash/isNumber":410}],578:[function(_dereq_,module,exports){
+},{"lodash/assign":375,"lodash/camelCase":376,"lodash/isNumber":410}],570:[function(_dereq_,module,exports){
 "use strict";
 module.exports = [
   'formioElementDirective',
@@ -113545,7 +112803,7 @@ module.exports = [
   }
 ];
 
-},{}],579:[function(_dereq_,module,exports){
+},{}],571:[function(_dereq_,module,exports){
 "use strict";
 module.exports = [
   function() {
@@ -113571,7 +112829,7 @@ module.exports = [
   }
 ];
 
-},{}],580:[function(_dereq_,module,exports){
+},{}],572:[function(_dereq_,module,exports){
 "use strict";
 /**
 * This directive creates a field for tweaking component options.
@@ -113662,7 +112920,7 @@ module.exports = ['COMMON_OPTIONS', '$filter', function(COMMON_OPTIONS, $filter)
   };
 }];
 
-},{}],581:[function(_dereq_,module,exports){
+},{}],573:[function(_dereq_,module,exports){
 "use strict";
 /**
 * A directive for editing a component's custom validation.
@@ -113703,7 +112961,7 @@ module.exports = function() {
   };
 };
 
-},{}],582:[function(_dereq_,module,exports){
+},{}],574:[function(_dereq_,module,exports){
 "use strict";
 /**
 * A directive for a field to edit a component input format.
@@ -113747,7 +113005,7 @@ module.exports = function() {
   };
 };
 
-},{}],583:[function(_dereq_,module,exports){
+},{}],575:[function(_dereq_,module,exports){
 "use strict";
 /**
 * A directive for a field to edit a component inputs' label position.
@@ -113789,7 +113047,7 @@ module.exports = function() {
     };
   };
 
-},{}],584:[function(_dereq_,module,exports){
+},{}],576:[function(_dereq_,module,exports){
 "use strict";
 /**
 * A directive for a field to edit a component's key.
@@ -113835,7 +113093,7 @@ module.exports = function() {
   };
 };
 
-},{}],585:[function(_dereq_,module,exports){
+},{}],577:[function(_dereq_,module,exports){
 "use strict";
 /**
 * A directive for a field to edit a component's label position.
@@ -113899,7 +113157,7 @@ module.exports = function() {
     };
   };
 
-},{}],586:[function(_dereq_,module,exports){
+},{}],578:[function(_dereq_,module,exports){
 "use strict";
 /**
 * A directive for a field to edit a component options' label position.
@@ -113941,7 +113199,7 @@ module.exports = function() {
     };
   };
 
-},{}],587:[function(_dereq_,module,exports){
+},{}],579:[function(_dereq_,module,exports){
 "use strict";
 /**
 * A directive for a field to edit a component's shortcut.
@@ -113963,7 +113221,7 @@ module.exports = function() {
   };
 };
 
-},{}],588:[function(_dereq_,module,exports){
+},{}],580:[function(_dereq_,module,exports){
 "use strict";
 /**
 * A directive for a field to edit a component's tags.
@@ -114007,7 +113265,7 @@ module.exports = function() {
   };
 };
 
-},{"lodash/map":421}],589:[function(_dereq_,module,exports){
+},{"lodash/map":421}],581:[function(_dereq_,module,exports){
 "use strict";
 module.exports = [
   function() {
@@ -114029,7 +113287,7 @@ module.exports = [
   }
 ];
 
-},{}],590:[function(_dereq_,module,exports){
+},{}],582:[function(_dereq_,module,exports){
 "use strict";
 /**
  * A directive for a table builder
@@ -114083,7 +113341,7 @@ module.exports = function() {
   };
 };
 
-},{"lodash/merge":424}],591:[function(_dereq_,module,exports){
+},{"lodash/merge":424}],583:[function(_dereq_,module,exports){
 "use strict";
 /**
 * Invokes Bootstrap's popover jquery plugin on an element
@@ -114128,7 +113386,7 @@ module.exports = ['$filter', function($filter) {
   };
 }];
 
-},{}],592:[function(_dereq_,module,exports){
+},{}],584:[function(_dereq_,module,exports){
 "use strict";
 /**
 * A directive that provides a UI to add {value, label} objects to an array.
@@ -114191,7 +113449,7 @@ module.exports = function() {
   };
 };
 
-},{"lodash/camelCase":376,"lodash/map":421}],593:[function(_dereq_,module,exports){
+},{"lodash/camelCase":376,"lodash/map":421}],585:[function(_dereq_,module,exports){
 "use strict";
 module.exports = function() {
   return {
@@ -114228,7 +113486,7 @@ module.exports = function() {
   };
 };
 
-},{}],594:[function(_dereq_,module,exports){
+},{}],586:[function(_dereq_,module,exports){
 "use strict";
 module.exports = function () {
   return {
@@ -114251,7 +113509,7 @@ module.exports = function () {
   };
 }
 
-},{}],595:[function(_dereq_,module,exports){
+},{}],587:[function(_dereq_,module,exports){
 "use strict";
 /**
  * A directive that provides a UI for multiple masks input.
@@ -114292,7 +113550,7 @@ module.exports = ['COMMON_OPTIONS', function (COMMON_OPTIONS) {
   };
 }];
 
-},{}],596:[function(_dereq_,module,exports){
+},{}],588:[function(_dereq_,module,exports){
 "use strict";
 /**
 * A directive that provides a UI to add key-value pair object.
@@ -114365,7 +113623,7 @@ module.exports = function() {
   };
 };
 
-},{}],597:[function(_dereq_,module,exports){
+},{}],589:[function(_dereq_,module,exports){
 "use strict";
 /**
 * A directive for an input mask for default value.
@@ -114415,7 +113673,7 @@ module.exports = function() {
   };
 };
 
-},{"formiojs/utils":187,"vanilla-text-mask":531}],598:[function(_dereq_,module,exports){
+},{"formiojs/utils":187,"vanilla-text-mask":531}],590:[function(_dereq_,module,exports){
 "use strict";
 /*
 * Prevents user inputting invalid api key characters.
@@ -114438,7 +113696,7 @@ module.exports = function() {
   };
 };
 
-},{}],599:[function(_dereq_,module,exports){
+},{}],591:[function(_dereq_,module,exports){
 "use strict";
 /**
 * A directive that provides a UI to add {value, label} objects to an array.
@@ -114520,7 +113778,7 @@ module.exports = function() {
   };
 };
 
-},{"lodash/camelCase":376,"lodash/map":421}],600:[function(_dereq_,module,exports){
+},{"lodash/camelCase":376,"lodash/map":421}],592:[function(_dereq_,module,exports){
 "use strict";
 /**
 * A directive that provides a UI to add {value, label} objects to an array.
@@ -114642,7 +113900,7 @@ module.exports = ['BuilderUtils', function(BuilderUtils) {
   }
 ];
 
-},{"lodash/camelCase":376,"lodash/difference":384,"lodash/map":421,"lodash/without":444}],601:[function(_dereq_,module,exports){
+},{"lodash/camelCase":376,"lodash/difference":384,"lodash/map":421,"lodash/without":444}],593:[function(_dereq_,module,exports){
 "use strict";
 'use strict';
 
@@ -114801,7 +114059,7 @@ module.exports = ['FormioUtils', function(FormioUtils) {
   };
 }];
 
-},{"lodash/difference":384,"lodash/range":430}],602:[function(_dereq_,module,exports){
+},{"lodash/difference":384,"lodash/range":430}],594:[function(_dereq_,module,exports){
 "use strict";
 // Create an AngularJS service called debounce
 module.exports = ['$timeout','$q', function($timeout, $q) {
@@ -114835,16 +114093,16 @@ module.exports = ['$timeout','$q', function($timeout, $q) {
   };
 }];
 
-},{}],603:[function(_dereq_,module,exports){
+},{}],595:[function(_dereq_,module,exports){
 "use strict";
 _dereq_('ng-formio/src/formio-complete.js');
 _dereq_('angular-drag-and-drop-lists');
 _dereq_('ng-dialog');
 _dereq_('./ngFormBuilder.js');
 
-},{"./ngFormBuilder.js":604,"angular-drag-and-drop-lists":2,"ng-dialog":449,"ng-formio/src/formio-complete.js":519}],604:[function(_dereq_,module,exports){
+},{"./ngFormBuilder.js":596,"angular-drag-and-drop-lists":2,"ng-dialog":449,"ng-formio/src/formio-complete.js":519}],596:[function(_dereq_,module,exports){
 "use strict";
-/*! ng-formio-builder v2.38.9 | https://unpkg.com/ng-formio-builder@2.38.9/LICENSE.txt */
+/*! ng-formio-builder v2.38.10 | https://unpkg.com/ng-formio-builder@2.38.10/LICENSE.txt */
 /*global window: false, console: false, jQuery: false */
 /*jshint browser: true */
 
@@ -115053,5 +114311,5 @@ app.run([
 
 
 _dereq_('./components');
-},{"./components":551,"./constants/commonOptions":572,"./constants/formOptions":573,"./directives/formBuilder":574,"./directives/formBuilderComponent":575,"./directives/formBuilderConditional":576,"./directives/formBuilderDnd":577,"./directives/formBuilderElement":578,"./directives/formBuilderList":579,"./directives/formBuilderOption":580,"./directives/formBuilderOptionCustomValidation":581,"./directives/formBuilderOptionInputFormat":582,"./directives/formBuilderOptionInputsLabelPosition":583,"./directives/formBuilderOptionKey":584,"./directives/formBuilderOptionLabelPosition":585,"./directives/formBuilderOptionOptionsLabelPosition":586,"./directives/formBuilderOptionShortcut":587,"./directives/formBuilderOptionTags":588,"./directives/formBuilderRow":589,"./directives/formBuilderTable":590,"./directives/formBuilderTooltip":591,"./directives/headersBuilder":592,"./directives/jsonInput":593,"./directives/labelValidator":594,"./directives/multiMaskInput":595,"./directives/objectBuilder":596,"./directives/textMask":597,"./directives/validApiKey":598,"./directives/valueBuilder":599,"./directives/valueBuilderWithShortcuts":600,"./factories/BuilderUtils":601,"./factories/debounce":602,"formiojs/utils":187}]},{},[603])(603)
+},{"./components":546,"./constants/commonOptions":564,"./constants/formOptions":565,"./directives/formBuilder":566,"./directives/formBuilderComponent":567,"./directives/formBuilderConditional":568,"./directives/formBuilderDnd":569,"./directives/formBuilderElement":570,"./directives/formBuilderList":571,"./directives/formBuilderOption":572,"./directives/formBuilderOptionCustomValidation":573,"./directives/formBuilderOptionInputFormat":574,"./directives/formBuilderOptionInputsLabelPosition":575,"./directives/formBuilderOptionKey":576,"./directives/formBuilderOptionLabelPosition":577,"./directives/formBuilderOptionOptionsLabelPosition":578,"./directives/formBuilderOptionShortcut":579,"./directives/formBuilderOptionTags":580,"./directives/formBuilderRow":581,"./directives/formBuilderTable":582,"./directives/formBuilderTooltip":583,"./directives/headersBuilder":584,"./directives/jsonInput":585,"./directives/labelValidator":586,"./directives/multiMaskInput":587,"./directives/objectBuilder":588,"./directives/textMask":589,"./directives/validApiKey":590,"./directives/valueBuilder":591,"./directives/valueBuilderWithShortcuts":592,"./factories/BuilderUtils":593,"./factories/debounce":594,"formiojs/utils":187}]},{},[595])(595)
 });

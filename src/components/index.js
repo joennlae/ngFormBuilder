@@ -4,7 +4,7 @@ var app = angular.module('ngFormBuilder');
 require('./components')(app);
 require('./textfield')(app);
 require('./number')(app);
-require('./password')(app);
+//require('./password')(app);
 require('./textarea')(app);
 require('./checkbox')(app);
 require('./selectboxes')(app);
@@ -23,13 +23,13 @@ require('./day')(app);
 require('./time')(app);
 require('./currency')(app);
 require('./hidden')(app);
-require('./resource')(app);
-require('./file')(app);
-require('./form')(app);
-require('./signature')(app);
-require('./custom')(app);
-require('./datagrid')(app);
-require('./editgrid')(app);
+//require('./resource')(app)
+//require('./file')(app);
+//require('./form')(app);
+//require('./signature')(app);
+//require('./custom')(app);
+//require('./datagrid')(app);
+//require('./editgrid')(app);
 require('./survey')(app);
 
 // Layout
